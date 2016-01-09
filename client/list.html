@@ -1,0 +1,17 @@
+<template name="tpList">
+
+{{#if displayFilters}}
+   	{{>tpFilters}}
+{{/if}}
+
+	<div id='map'></div>
+
+    <h2>event list</h2>
+	{{#each item}}
+	<div class='event'>
+		<b>{{ title }}</b>, proposed by <em>{{ author }}</em>
+		<button class="deleteEvent">delete</button>
+		<button class="modifyEvent">modify</button>
+	</div>
+	{{/each}}
+</template>

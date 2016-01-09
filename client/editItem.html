@@ -1,0 +1,52 @@
+<template name="tpEditItem">
+		+++++++SECTION1++++++<br/>
+	<form>
+		<label>Auteur</label>
+		<input type="text" id="tpEditItem_author" /><br />
+
+		<label>Titre</label>
+		<input type="text" id="tpEditItem_title" /><br />
+
+		<label>Contenu</label>
+		<textarea id="tpEditItem_content" ></textarea><br />
+
+		<!-- date selectors -->
+		<label>Start Date</label>
+		<input type="text" id="tpEditItem_startDate" size="4" placeholder="YYYY-MM-DD"> 
+		<!-- to be replaced by something more elegant -->
+		<select id="tpEditItem_startDateHour" size="0" ></select> : 
+		<select id="tpEditItem_startDateMinute" size="0" ></select>
+		<br/>
+		
+
+<!-- CATEGORIES -->
+		+++++++SECTION2++++++<br/>
+		<label>Select applicable categories</label>
+		{{>categories}}
+		<br/>
+
+		+++++++SECTION3++++++<br/>
+<!-- LOCATION  -->
+
+	<!-- {{#if displayAddLocation}} -->
+		{{>tpAddLocation}}
+<!-- 	{{else}}
+		Please select a location:<br/>
+		<select id="tpEditItem_startDateMinute" size="0" >
+		{{#each place}}
+		
+		{{/each}}
+		</select>
+		<br/>
+		Or <button id="displayAddLocation" > Register a new location </button>
+		<br/>
+	{{/if}} -->
+
+		++++++++++++++++++++<br/>
+
+
+		<button type="submit" > 
+		{{#if modifyUseCase}}Save{{else}}Create{{/if}}
+		</button>
+	</form>
+</template>

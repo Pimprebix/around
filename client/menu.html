@@ -1,0 +1,40 @@
+<template name="tpMenu">
+
+<div class="site-container">
+    <div class="site-pusher">
+
+<!-- header -->
+        <header class="header">
+            <a href="#" class="header__icon" id="header__icon"></a>
+            <h1>Around</h1>
+            <nav class="menu">
+                {{#if currentUser}}
+                <a href="{{pathFor route='profile'}}" > Profile Page </a>
+                {{else}}
+                <a href="{{pathFor route='login'}}" >  Login </a>
+                {{/if}}
+                <br />
+
+                <a href="{{pathFor route='main'}}" class="filterToggle" id="filterToggle" > 
+                List/filter (same icon)
+                </a>
+
+                <br />
+                <a href="{{pathFor route='create'}}"> Create </a>
+            </nav>
+        </header>
+
+
+<!--         <div class="site-content">
+            <div class="container">
+
+            </div>
+        </div>
+        <div class="site-cache" id="site-cache">
+
+        </div> -->
+    </div>
+
+    {{> yield}}
+</div>
+</template>

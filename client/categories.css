@@ -1,0 +1,9 @@
+
+.itemCategory:not([checked="checked"]){ 
+	opacity: 0.5; 
+    filter:  alpha(opacity=40);
+}
+.itemCategory{
+	width:64px;
+	height:64px;
+}
