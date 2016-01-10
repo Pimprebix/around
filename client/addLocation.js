@@ -2,7 +2,7 @@ var map;
 var marker = null;
 var markerLocation = null;
 
-function registerPlace(){
+function registerPlace(location){
 	var pName = $("#placeName").val();
 	var pAddress = $("#placeAddress").val();
 	var pCity = $("#placeCity").val();
@@ -11,17 +11,57 @@ function registerPlace(){
 		name: pName,
 		street: pAddress,
 		city: pCity,
-		position: markerLocation	
+		position: location	
 		});
+}
+
+/*
+Purpuse of this function is to return all icons 
+based on their type (it s dictionary)
+*/
+function getIcon(iconName){
+	var greenIcon = {
+	    iconUrl: '/mapIcons/leaf-green.png',
+	    iconSize:     [38, 95], // size of the icon
+	    shadowSize:   [50, 64], // size of the shadow
+	    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+	    shadowAnchor: [4, 62],  // the same for the shadow
+	    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+	};
+
+	/*
+    properties: {
+        title: 'Peregrine Espresso',
+        description: '1718 14th St NW, Washington, DC',
+        // one can customize markers by adding simplestyle properties
+        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
+        'marker-size': 'large',
+        'marker-color': '#BE9A6B',
+        'marker-symbol': 'cafe'
+    }
+
+	*/
+	return greenIcon;
+}
+
+/*
+This function adds Icons to the map, 
+center the map and apply the zoom
+*/
+function addIconType(iconType, position, zoom){            
+	//remove marker if it exists
+    if (marker!=null){ map.removeLayer(marker);}
+    // add marker
+    marker = L.marker(position, 
+    	{icon: L.icon(getIcon(iconType))}).addTo(map);//add new marker
+    // set map view on the icon
+    map.setView(position, zoom);
 }
 
 Template.tpAddLocation.onRendered(function(){
 
 		console.log('\nTemplate.tpList.onRendered');
-		/*******************
-		Enhance HTML content
-		********************/
-		//set map search
+		//add map
 		map = L.map('map', 	{doubleClickZoom: false	});
   		L.tileLayer.provider('Thunderforest.Outdoors').addTo(map);
 
@@ -30,27 +70,19 @@ Template.tpAddLocation.onRendered(function(){
 		********************/
 		var zoom = 16;
 		if (Session.get("updateMode")){
-
 			var modifiedItem = Session.get("modifiedItem");
-
 			$("#placeAddress").val(modifiedItem.address.street);
 			$("#placeCity").val(modifiedItem.address.city);
 			$("#placeName").val(modifiedItem.address.name);
-
-			if (marker!=null){ map.removeLayer(marker);}//remove marker if it exists
-			marker = L.marker(modifiedItem.address.position).addTo(map);//add new marker
-
-			map.setView(modifiedItem.address.position, zoom);
+			addIconType("green", modifiedItem.address.position, zoom);
 		}
 		else{
 			map.setView(Session.get("defaultPosition"), zoom);
-		}
+   		}
 
 		map.on('click', function(event) {
-			if (marker!=null){ map.removeLayer(marker);}
-			markerLocation = event.latlng;
-			marker = L.marker(event.latlng).addTo(map);
-			registerPlace()
+			addIconType("green", event.latlng, zoom);
+			registerPlace(location)
 		  	});
 });
 
@@ -82,11 +114,8 @@ Template.tpAddLocation.events({
 		    	if (data.results.length>0) 
 		    	{
 					var location = data.results[0].geometry.location;
-					if (marker!=null){ map.removeLayer(marker);}//remove marker if it exists
-					marker = L.marker(location).addTo(map);//add new marker
-					map.setView(location, 16); // set view
-					markerLocation = location;
-					registerPlace()
+					addIconType("green", location, 17);
+					registerPlace(location)
 		    	} else {
 			    	console.log("Geocoding request failed.");
 		    	}

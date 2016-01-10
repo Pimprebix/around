@@ -14,15 +14,12 @@ if (Meteor.isClient) {
       	);
   	}
 
-
-
   });
 }
 
 
 Template.tpMenu.events({
 	"click #filterToggle": function(e){
-		console.log('yay!');
 		var prevValue = Session.get("displayFilters");
 		Session.set("displayFilters", !prevValue);
 	}
@@ -32,3 +29,4 @@ Template.tpMenu.helpers({
 		return Session.get("displayFilters");
 	},
 });
+

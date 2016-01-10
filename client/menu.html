@@ -6,21 +6,30 @@
 <!-- header -->
         <header class="header">
             <a href="#" class="header__icon" id="header__icon"></a>
-            <h1>Around</h1>
             <nav class="menu">
                 {{#if currentUser}}
                 <a href="{{pathFor route='profile'}}" > Profile Page </a>
                 {{else}}
-                <a href="{{pathFor route='login'}}" >  Login </a>
+                <a href="{{pathFor route='login'}}" >
+                <img src="/nav/nav_user.png" 
+                     alt="Login" 
+                     class="itemCategory"
+                /></a>
                 {{/if}}
-                <br />
 
-                <a href="{{pathFor route='main'}}" class="filterToggle" id="filterToggle" > 
-                List/filter (same icon)
+                <a href="{{pathFor route='main'}}" class="filterToggle" id="filterToggle" >
+                <img src="/nav/nav_search.png" 
+                     alt="search" 
+                     class="itemCategory"
+                />
                 </a>
 
-                <br />
-                <a href="{{pathFor route='create'}}"> Create </a>
+                <a href="{{pathFor route='create'}}">
+                <img src="/nav/nav_add.png" 
+                     alt="Add" 
+                     class="itemCategory"
+                />
+                </a>
             </nav>
         </header>
 

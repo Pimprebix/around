@@ -1,3 +1,6 @@
+var map = null;
+var markerList =[];
+
 Template.tpList.events({
 
     "click .deleteEvent": function (){
@@ -49,12 +52,16 @@ Template.tpList.helpers({
       	}
       	criterias.push({"startDate": {$gte: startDate, $lte: endDate}});
 
-		// Meteor.call('log', tags, function (e, data) {
-		//     console.log(e);
-		//     console.log(data);
-		// });
+		var results = Events.find({ $and:criterias}); 
+		results.forEach(function(i){
+			markerList.push(L.marker(i.address.position));
+			//add marker to list
+			// markers will be display on map when necessary
+			// markers are related on events
+			//.addTo(map);
+		});
 
-		return Events.find({ $and:criterias}); 
+		return results;
 	},
 
 	displayFilters: function(){ 
@@ -71,10 +78,14 @@ Template.tpList.onRendered(function(){
 		********************/
 		var pos = Session.get("defaultPosition");
 		var zoom = Session.get("defaultZoom");
-		var map = L.map('map', 	{doubleClickZoom: false	});
+		map = L.map('map', 	{doubleClickZoom: false	});
   		L.tileLayer.provider('Thunderforest.Outdoors').addTo(map);
 
 		map.setView(pos, zoom);
+
+		for (m in markerList){
+			markerList[m].addTo(map);
+		}
 		
 		// map.on('click', function(event) {
 		//     //Markers.insert({latlng: event.latlng});
