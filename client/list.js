@@ -16,8 +16,10 @@ Template.tpList.events({
     	var tags =[];
 		$(".itemCategory[checked=checked]").each(function(){
 		  tags.push($(this).attr('id'));
+		  // console.log("adding "+$(this).attr('id'));
 		});
 		Session.set("tagFilter", tags);
+		// console.log(tags);
     },
 
     "change .filterForm input": function () {
@@ -28,19 +30,9 @@ Template.tpList.events({
 
 
 Template.tpList.helpers({
-	//filter should be AND or OR ?
-	//{$or:[{tags: "drink"}, {tags: "sport"}]} 
 	item: function(){ 
 
-		// set default dates if they dont exist
-		if (Session.get("startDateFilter")===undefined){
-			var	d1 = new Date(); //today
-			var d2 = new Date(d1.getTime()+182*24*60*60*1000);	// 6month ahead
-			Session.setDefault("startDateFilter", d1);
-			Session.setDefault("endDateFilter", d2);
-		}
-
-		// retrieve stored data
+		// retrieve stored data for filters
       	var tags = Session.get("tagFilter");
       	var startDate = new Date(Session.get("startDateFilter"));
       	var endDate   = new Date(Session.get("endDateFilter"));
@@ -52,15 +44,16 @@ Template.tpList.helpers({
       	}
       	criterias.push({"startDate": {$gte: startDate, $lte: endDate}});
 
+      	// Get query results
 		var results = Events.find({ $and:criterias}); 
+
+		//uggly
 		results.forEach(function(i){
-			markerList.push(L.marker(i.address.position));
-			//add marker to list
-			// markers will be display on map when necessary
-			// markers are related on events
-			//.addTo(map);
+			markerList.push(i.address.position);
+			console.log("adding "+i.address.position);
 		});
 
+		// render template map
 		return results;
 	},
 
@@ -70,27 +63,25 @@ Template.tpList.helpers({
 
 });
 
+function updateMap(markers){
+	console.log("updating map...");
+	for (var m in markers){
+		console.log(markers[m]);
+		L.marker(markers[m]).addTo(map);
+	}
+}
+
 Template.tpList.onRendered(function(){
 
 		console.log('\nTemplate.tpList.onRendered');
-		/*******************
-		Enhance HTML content
-		********************/
+
 		var pos = Session.get("defaultPosition");
 		var zoom = Session.get("defaultZoom");
 		map = L.map('map', 	{doubleClickZoom: false	});
   		L.tileLayer.provider('Thunderforest.Outdoors').addTo(map);
 
 		map.setView(pos, zoom);
-
-		for (m in markerList){
-			markerList[m].addTo(map);
-		}
 		
-		// map.on('click', function(event) {
-		//     //Markers.insert({latlng: event.latlng});
-		//     console.log("click on map: "+event.latlng);
-		//   	});
-		
+		// updateMap(markerList);		
 });
 

@@ -50,8 +50,6 @@ Template.tpEditItem.events({
 	},
 	'click button[id=displayAddLocation]': function(e){
 		e.preventDefault();
-		// e.preventDefault('addLocation');
-		// Router.go("addLocation");
 		var p = Session.get("displayAddLocation");
 		Session.set("displayAddLocation", !p);
 	}
@@ -60,39 +58,10 @@ Template.tpEditItem.events({
 Template.tpEditItem.helpers({
 	modifyUseCase: function(){
 		return Session.get("updateMode");
-	},
-	
+	},	
 	displayAddLocation: function(){
 		return Session.get("displayAddLocation");
 	}
-
-	// mapOptions: function() {
-	// 	console.log('Template.tpEditItem.helpers : mapOptions()');
-	// 	if(GoogleMaps.loaded()){
-	// 		return {
-	// 	      center: new google.maps.LatLng(	
-	// 	      	Session.get("defaultPosition")[0],
-	// 	       	Session.get("defaultPosition")[1]
-	// 	       	),
-	// 	      zoom: 18,
-	// 	      scrollwheel: false
-	// 	    };
-	// 	}
- //  	}
-});
-
-// Template.tpEditItem.onCreated(function() {
-// 		// Call the load method to load the maps API.
-// 	console.log('Template.tpEditItem.onCreated : load Google Maps API, set default position');
-// });
-Template.tpEditItem.onCreated(function() {  
-  // GoogleMaps.ready('map', function(map) {
-  //    console.log("Template.tpEditItem.onCreated :  I'm ready!");
-  //    google.maps.event.addListener(map.instance, 'click', function(event) {
-  //    	console.log({ "lat": event.latLng.lat(), "lng": event.latLng.lng() });
-  //    	//var document = event.latLng;
-  //   });
-  // });
 });
 
 

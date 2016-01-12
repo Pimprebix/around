@@ -7,6 +7,12 @@ if (Meteor.isClient) {
 	Session.setDefault("defaultPosition", [43.5816,7.12511]);//43.5816, 7.12511
 	Session.setDefault("defaultZoom", 16);
 	
+	// default filters
+	var	d1 = new Date(); //today
+	var d2 = new Date(d1.getTime()+182*24*60*60*1000);	// 6month ahead
+	Session.setDefault("startDateFilter", d1);
+	Session.setDefault("endDateFilter", d2);
+
  	// try to acquire real position
    	if (navigator.geolocation) {
       	navigator.geolocation.getCurrentPosition(

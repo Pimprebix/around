@@ -29,18 +29,6 @@ function getIcon(iconName){
 	    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 	};
 
-	/*
-    properties: {
-        title: 'Peregrine Espresso',
-        description: '1718 14th St NW, Washington, DC',
-        // one can customize markers by adding simplestyle properties
-        // https://www.mapbox.com/guides/an-open-platform/#simplestyle
-        'marker-size': 'large',
-        'marker-color': '#BE9A6B',
-        'marker-symbol': 'cafe'
-    }
-
-	*/
 	return greenIcon;
 }
 
@@ -82,7 +70,7 @@ Template.tpAddLocation.onRendered(function(){
 
 		map.on('click', function(event) {
 			addIconType("green", event.latlng, zoom);
-			registerPlace(location)
+			registerPlace(event.latlng);
 		  	});
 });
 
@@ -115,7 +103,7 @@ Template.tpAddLocation.events({
 		    	{
 					var location = data.results[0].geometry.location;
 					addIconType("green", location, 17);
-					registerPlace(location)
+					registerPlace(location);
 		    	} else {
 			    	console.log("Geocoding request failed.");
 		    	}
